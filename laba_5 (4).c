@@ -4,25 +4,25 @@
 struct tree
 {
 	int data;
-	tree*right;
-	tree*left;
+	struct tree*right;
+	struct tree*left;
 };
-tree* read ()
+struct tree* read ()
 {
 	long n;
 	scanf ("%ld", &n);
 //	printf("%ld\n",n);
 	long i,a;
-	bool flag;
-	tree*t;
-	tree*s;
+	int flag;
+	struct tree*t;
+	struct tree*s;
 	s = NULL;
 	for (i=0;i<n;i++)
 	{
 		scanf ("%ld", &a);
 		if (s==NULL)
 		{
-			s=(tree*)malloc (sizeof (tree));
+			s=(struct tree*)malloc (sizeof (tree));
 			s->left=NULL;
 			s->right=NULL;
 			s->data=a;
@@ -38,7 +38,7 @@ tree* read ()
 					t=t->right;
 					else
 					{
-						t->right=(tree*)malloc(sizeof(tree));
+						t->right=(struct tree*)malloc(sizeof(tree));
 						t=t->right;
 						t->data=a;
 						t->left=NULL;
@@ -52,7 +52,7 @@ tree* read ()
 					t=t->left;
 					else
 					{
-						t->left=(tree*)malloc(sizeof(tree));
+						t->left=(struct tree*)malloc(sizeof(tree));
 						t=t->left;
 						t->data=a;
 						t->left=NULL;
@@ -66,7 +66,7 @@ tree* read ()
 	}
 	return s;
 }
-void write (tree*s)
+void write (struct tree*s)
 {
 	if(s!=NULL)
 	{
@@ -86,7 +86,7 @@ void write (tree*s)
 }
 int main()
 {
-	tree*sort=NULL;
+	struct tree*sort=NULL;
 	sort=read();
 	write (sort);
 	if(sort!=NULL)
