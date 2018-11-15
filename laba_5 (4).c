@@ -22,7 +22,7 @@ struct tree* read ()
 		scanf ("%ld", &a);
 		if (s==NULL)
 		{
-			s=(struct tree*)malloc (sizeof (tree));
+			s=(struct tree*)malloc (sizeof (struct tree));
 			s->left=NULL;
 			s->right=NULL;
 			s->data=a;
@@ -38,7 +38,7 @@ struct tree* read ()
 					t=t->right;
 					else
 					{
-						t->right=(struct tree*)malloc(sizeof(tree));
+						t->right=(struct tree*)malloc(sizeof(struct tree));
 						t=t->right;
 						t->data=a;
 						t->left=NULL;
@@ -52,7 +52,7 @@ struct tree* read ()
 					t=t->left;
 					else
 					{
-						t->left=(struct tree*)malloc(sizeof(tree));
+						t->left=(struct tree*)malloc(sizeof(struct tree));
 						t=t->left;
 						t->data=a;
 						t->left=NULL;
