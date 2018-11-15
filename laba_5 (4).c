@@ -75,7 +75,7 @@ void write (struct tree*s)
 			write (s->left);
 			free (s->left);
 		}
-		printf ("%ld ", s->data);
+		printf ("%d ", s->data);
 		if (s->right!=NULL)
 		{
 			write (s->right);
