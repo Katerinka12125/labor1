@@ -5,7 +5,7 @@
 int shift[1000]; 
 void table(const char pattern[MAXLINE]) 
 { 
-  int t = strlen(pattern), i, j=0; 
+  unsigned long long t = strlen(pattern), i, j=0; 
   for (i = 0; i<=1000; i++) 
   shift[i] = t; 
   for(i = 0; i < t-1; i++) 
