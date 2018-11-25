@@ -13,7 +13,7 @@ void table(const char pattern[MAXLINE])
 } 
 
 void pos(const char pattern[MAXLINE],int i) 
-  { 
+  	{ 
     char str[100] = {0}; 
     gets(str); 
     int j, k, t = strlen(pattern), len = strlen(str); 
@@ -47,7 +47,7 @@ else
       } 
 i+=t; 
 pos(pattern, i); 
-} 
+	} 
 
 int main(void) 
 { 
