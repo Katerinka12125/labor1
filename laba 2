@@ -47,8 +47,7 @@ void pos(const char pattern[MAXLINE], int i)
  } 
  i += t; 
  pos(pattern, i); 
-} 
- 
+}  
 int main(void) 
 { 
  char pattern[100]; 
