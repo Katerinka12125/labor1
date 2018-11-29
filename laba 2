@@ -26,7 +26,7 @@ void pos(const char pattern[MAXLINE], int i)
    printf("%d ", k + i); 
    if (pattern[t - 1] == str[k - 1]) 
   { 
-    for (j = t - 2; (pattern[j] == str[k - t + j]) && (j >= 0); j--) 
+    for (j = t - 2; ( (j >= 0) && pattern[j] == str[k - t + j]); j--) 
    { 
      printf("%d ", k - t + j + 1 + i); 
    } 
