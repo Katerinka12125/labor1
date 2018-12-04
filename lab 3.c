@@ -34,7 +34,7 @@ int main()
   n = strlen(str); 
   husharray = HashFunction(array, m); 
   hushline = HashFunction(str, m); 
-  printf("%d ", husharray); 
+  printf("%ld ", husharray); 
   long pow1 = 1; 
   for (i = 1; i < m; i++) 
   pow1 *= 3; 
