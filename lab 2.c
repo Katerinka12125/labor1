@@ -15,7 +15,7 @@ void table(const char pattern[MAXLINE])
 void pos(const char pattern[MAXLINE], int i) 
 { 
   char str[100] = { 0 }; 
-  gets_s(str); 
+  gets(str);
   int j, k, t = strlen(pattern), len = strlen(str); 
   if ((len == 0) || (t == 0)) 
   exit(0); 
@@ -51,7 +51,7 @@ void pos(const char pattern[MAXLINE], int i)
 int main(void) 
 { 
  char pattern[100]; 
- gets_s(pattern); 
+ gets(pattern);
  table(pattern); 
  pos(pattern, 0); 
  return 0; 
