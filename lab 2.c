@@ -14,9 +14,14 @@ void table(const char pattern[MAXLINE])
 }  
 void pos(const char pattern[MAXLINE], int i) 
 { 
-  char str[100] = { 0 }; 
-  gets(str);
-  int j, k, t = strlen(pattern), len = strlen(str); 
+  char str1[100] = { 0 }; 
+  char str2[100] = { 0 }; 
+  fgets(str1,sizeof(str1),stdin);
+  fgets(str2,sizeof(str2),stdin);
+  strcat (str1,str2);
+  if ((str1[strlen(str1) - 1]) == '\n')
+	str1[strlen(str1) - 1] = 0;
+  int j, k, t = strlen(pattern), len = strlen(str1); 
   if ((len == 0) || (t == 0)) 
   exit(0); 
   if (len < t) 
@@ -24,9 +29,9 @@ void pos(const char pattern[MAXLINE], int i)
   for (k = t; k <= len; ) 
  { 
    printf("%d ", k + i); 
-   if (pattern[t - 1] == str[k - 1]) 
+   if (pattern[t - 1] == str1[k - 1]) 
   { 
-    for (j = t - 2; ( (j >= 0) && pattern[j] == str[k - t + j]); j--) 
+    for (j = t - 2; ( (j >= 0) && pattern[j] == str1[k - t + j]); j--) 
    { 
      printf("%d ", k - t + j + 1 + i); 
    } 
@@ -42,16 +47,17 @@ void pos(const char pattern[MAXLINE], int i)
   } 
   else 
   { 
-     k += shift[str[k - 1] + 128]; 
+     k += shift[str1[k - 1] + 128]; 
   } 
  } 
  i += t; 
- pos(pattern, i); 
 }  
 int main(void) 
 { 
  char pattern[100]; 
- gets(pattern);
+ fgets(pattern,sizeof(pattern),stdin);
+ if ((pattern[strlen(pattern) - 1]) == '\n')
+	pattern[strlen(pattern) - 1] = 0;
  table(pattern); 
  pos(pattern, 0); 
  return 0; 
