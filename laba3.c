@@ -28,8 +28,9 @@ m = strlen(str);
 fgets(line1,sizeof(line1),stdin);
 if (fgets(line2,sizeof(line2), stdin))
 	strcat(line1, line2); 
-if (line1[strlen(line1) - 1] == '\n')
-	line1[strlen(line1) - 1] = 0;
+if (strlen(line1)>0)
+	if (line1[strlen(line1) - 1] == '\n')
+		line1[strlen(line1) - 1] = 0;
 n = strlen(line1); 
 husharray = HashFunction(str, m); 
 hushline = HashFunction(line1, m); 
