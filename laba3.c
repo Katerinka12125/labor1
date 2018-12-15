@@ -38,7 +38,7 @@
 		printf("%ld ", husharray); 
 		long pow1 = 1; 
 		for (i = 1; i < m; i++) 
-		pow1 *= 3; 
+			pow1 *= 3; 
 				for (i = 0; i< n - m + 1; i++) 
 					{ 
 						if (husharray == hushline) 
@@ -47,7 +47,7 @@
 							{ 
 								printf("%d ", k + 1); 
 								if (str[k - i] != line1[k]) 
-								break; 
+									break; 
 							} 
 						} 
 							hushline = (hushline - (line1[i] % 3)) / 3 + ((line1[m + i] % 3)*pow1); 
