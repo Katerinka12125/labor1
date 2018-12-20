@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-int badinput(char *array)
+void badinput(char *array)
 {
 	for (int i=0;i<strlen(array);i++)
 	{
@@ -28,7 +28,7 @@ static void swap(char *array, int i,int j)
 	array[i]=array[j];
 	array[j]=temp;
 }
-int permutation(char *array,int count)
+void permutation(char *array,int count)
 {
 	int x=count-1;
 	while ((x>0) && (array[x-1]>=array[x]))
