@@ -1,0 +1,232 @@
+#include <string.h>
+#include <stdio.h>
+#include <assert.h>
+#include <stdlib.h>
+
+typedef struct token
+{
+	int tokenType; // 0 - number, 1 - character
+	char symbol;
+	int value;
+} token_t;
+
+int getNumber(char c)
+{
+	if (c >= '0' && c <= '9') 
+		return c - '0';
+	else 
+		return -1;
+}
+
+signed int getOperatorPriority(char op)
+{
+	switch (op)
+	{
+	case '*':
+	case '/':
+		return 3;
+	case '+':
+	case '-':
+		return 2;
+	case '(':
+	case ')':
+		return 1;
+	default:
+		return -1;
+	}
+}
+
+
+double calculateOperator(char op, double a, double b)
+{
+	switch (op)
+	{
+	case '*':
+		return a * b;
+	case '/':
+		return a / b;
+	case '+':
+		return a + b;
+	case '-':
+		return a - b;
+	default:
+		// We should neveer get here
+		assert(0);
+		return -1;
+	}
+}
+
+token_t *parse (char * string, int * tokenCount)
+{
+	token_t *result = malloc(sizeof(token_t) * strlen(string));
+	*tokenCount = 0;
+	int boof=0;
+	int is_number=0;
+	for (int i=0;i<strlen(string);i++)
+	{
+		if (getNumber(string[i])!=-1)
+		{  
+		   is_number=1;
+           boof*=10;
+           boof+=getNumber(string[i]);
+		}
+		else
+		{
+			if (getOperatorPriority(string[i]) == -1)
+				return NULL;
+
+			if(is_number)
+			{
+				result[*tokenCount].tokenType=0;
+				result[*tokenCount].value=boof;
+				(*tokenCount)++;
+				is_number=0;
+				boof=0;
+			}
+
+			result[*tokenCount].tokenType=1;
+			result[*tokenCount].symbol=string[i];
+			(*tokenCount)++;
+		}
+	}
+	if (is_number)
+	{
+		result[*tokenCount].tokenType=0;
+		result[*tokenCount].value=boof;
+		(*tokenCount)++;
+	}
+  return result;
+}
+
+token_t *convertToRPN(token_t *expression, int expressionLength, int *resultLength)
+{
+	token_t *result = malloc(sizeof(token_t) * expressionLength);
+	*resultLength = 0;
+	token_t *stack = malloc(sizeof(token_t) * expressionLength);
+	int stackEnd = -1;
+
+	for (int i = 0; i < expressionLength; i++)
+	{
+		if (expression[i].tokenType == 0)
+		{
+			result[(*resultLength)++] = expression[i];
+		}
+		else if (expression[i].tokenType == 1 && expression[i].symbol == '(')
+		{
+			if (i < expressionLength-1 && expression[i + 1].tokenType == 1 && expression[i + 1].symbol == ')') return NULL; // "()"
+			stack[++stackEnd] = expression[i];
+		}
+		else if (expression[i].tokenType == 1 && expression[i].symbol == ')')
+		{
+			while (stackEnd >= 0)
+			{
+				if (stack[stackEnd].tokenType == 1 && stack[stackEnd].symbol == '(')
+					break;
+				result[(*resultLength)++] = stack[stackEnd--];
+			}
+			if (stackEnd == -1)
+				return NULL; // Invalid brackets
+			stackEnd--; // Remove '('
+		}
+		else
+		{
+			int thisOpPriority = getOperatorPriority(expression[i].symbol);
+
+			while (stackEnd >= 0 && thisOpPriority <= getOperatorPriority(stack[stackEnd].symbol))
+			{
+				result[(*resultLength)++] = stack[stackEnd--];
+			}
+			stack[++stackEnd] = expression[i];
+		}
+	}
+
+	while (stackEnd >= 0)
+	{
+		if (stack[stackEnd].tokenType == 1 && stack[stackEnd].symbol == '(')
+			return NULL; // Invalid brackets
+		result[(*resultLength)++] = stack[stackEnd--];
+	}
+
+	free(stack);
+	return result;
+}
+
+int calculator_count (token_t *rpn, int count, double *result)
+{
+	double *stack= malloc(sizeof(double)*count);
+	int length_stack=0;
+	int i;
+	for (i=0;i<count;i++)
+	{
+		token_t current_token = rpn[i];
+
+		if (current_token.tokenType == 0)
+		{
+			stack[length_stack] = current_token.value;
+			length_stack++;
+		}
+		else
+		{
+			if (length_stack < 1) return -1;
+
+			double right = stack[length_stack-1];
+			length_stack--;
+
+			if (length_stack < 1) return -1;
+
+			double left = stack[length_stack-1];
+			length_stack--;
+
+			char operator = current_token.symbol;
+			if ((operator=='/')&&(right==0))
+				return -2;
+
+			double calculate = calculateOperator( operator, left, right);
+
+			stack[length_stack] = calculate;
+			length_stack++;
+		}
+	}
+
+	if(length_stack!=1) return -1;
+
+    *result=stack[length_stack-1];
+	return 0;
+}
+
+int main()
+{
+	char expression[1001];
+	gets(expression);
+
+	int tokensLength = -1;
+	token_t *tokens = parse(expression, &tokensLength);
+	if ( tokens==NULL)
+	{
+		printf("syntax error");
+	  exit (0);
+	}
+
+	int rpnLength = -1;
+	token_t *rpn = convertToRPN(tokens, tokensLength, &rpnLength);
+	if (rpn==NULL)
+	{
+		printf("syntax error");
+	  exit (0);
+	}
+
+	double result;
+	int err = calculator_count(rpn, rpnLength,&result);
+	if (err==-2)
+	{
+		printf("division by zero");
+	  exit (0);
+	}
+	if (err==-1)
+	{
+		printf("syntax error");
+	  exit (0);
+	}
+	printf("%lf\n", result);
+	return 0;
+}
