@@ -94,6 +94,8 @@ void decode(FILE * input, FILE * output, int i_flag)
         if (read_count % 4 != 0 && i_flag == 0)
         {
             printf("Invalid file\n");
+            free(write);
+            free(read);
             return;
         }
 
@@ -107,6 +109,8 @@ void decode(FILE * input, FILE * output, int i_flag)
             else if (!i_flag)
             {
                 printf("Invalid file\n");
+                free(write);
+                free(read);
                 return;
             }
 
@@ -144,7 +148,7 @@ void decode(FILE * input, FILE * output, int i_flag)
     free(read);
 }
 
-void main(int argc, char ** argv)
+int main(int argc, char ** argv)
 {
   int eflag = 0;
   int dflag = 0;
