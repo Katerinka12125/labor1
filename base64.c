@@ -179,7 +179,7 @@ int main(int argc, char ** argv)
         fvalue = strtol (optarg,&pEnd,10);
         if (pEnd == optarg)
         {
-            return;
+            return 1;
         }
         break;
       }
