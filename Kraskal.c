@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS 
 #include <stdlib.h> 
 #include <stdio.h> 
 
@@ -7,22 +8,21 @@ typedef struct rebro {
 	int length;
 } rebro_t;
 
-int count_ver;
-int count_rebro;
-rebro_t * all_rebro;
 
-int * ver_colors;
-int visited_ver_count;
-rebro_t *rebro_answer;
-int count_rebro_already_added = 0;
 
-int cmp(rebro_t *a, rebro_t *b)
+
+
+
+
+int cmp(const void *a, const void *b)
 {
-	return a->length - b->length;
+	return ((rebro_t *)a)->length - ((rebro_t *)b)->length;
 }
 
-int process()
+int process(int count_ver,int count_rebro, rebro_t * all_rebro, int * ver_colors, rebro_t *rebro_answer)
 {
+
+	int count_rebro_already_added = 0;
 	for (int i = 0; i < count_rebro; i++)
 	{
 		if (all_rebro[i].begin == all_rebro[i].end)
@@ -70,6 +70,11 @@ int process()
 
 int main()
 {
+	int count_ver;
+	int count_rebro;
+	rebro_t * all_rebro;
+	int * ver_colors;
+	rebro_t *rebro_answer;
 	scanf("%d\n", &count_ver);
 	if (count_ver < 0 || count_ver>5000)
 	{
@@ -138,9 +143,9 @@ int main()
 		}
 	}
 
-	qsort(all_rebro, count_rebro, sizeof(rebro_t), cmp);
+	qsort(all_rebro, count_rebro, sizeof(rebro_t), &cmp);
 
-	if (process() == 1)
+	if (process(count_ver,count_rebro, all_rebro, ver_colors, rebro_answer) == 1)
 	{
 		printf("no spanning tree");
 	}
@@ -153,4 +158,4 @@ int main()
 	free(rebro_answer);
 
 	return 0;
-}
+}     
