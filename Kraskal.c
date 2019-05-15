@@ -8,12 +8,6 @@ typedef struct rebro {
 	int length;
 } rebro_t;
 
-
-
-
-
-
-
 int cmp(const void *a, const void *b)
 {
 	return ((rebro_t *)a)->length - ((rebro_t *)b)->length;
