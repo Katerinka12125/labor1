@@ -7,14 +7,7 @@ typedef struct rebro {
 	int end;
 } rebro_t;
 
-int count_ver;
-int count_rebro;
-rebro_t * array;
-int *stack;
-int kol;
-int * colors;
-
-int process(int vert_num)
+int process(int vert_num, int count_ver,int count_rebro,rebro_t * array,int *stack,int *kol,int *colors)
 {
 	// красим в серый 
 	if (colors[vert_num] == 1)
@@ -29,7 +22,7 @@ int process(int vert_num)
 		if (array[i].begin == vert_num && colors[array[i].end] != 2)
 		{
 
-			int err = process(array[i].end);
+			int err = process(array[i].end, count_ver, count_rebro, array, stack, kol, colors);
 			if (err == 1) {
 				return 1;
 			}
@@ -38,14 +31,20 @@ int process(int vert_num)
 
 	// красим в чёрный и кладём в стек 
 	colors[vert_num] = 2;
-	stack[kol] = vert_num;
-	kol++;
+	stack[*kol] = vert_num;
+	(*kol)++;
 
 	return 0;
 }
 
 int main()
 {
+	int count_ver;
+	int count_rebro;
+	rebro_t * array;
+	int *stack;
+	int kol;
+	int * colors;
 	scanf("%d\n", &count_ver);
 	if (count_ver < 0 || count_ver>1000)
 	{
@@ -100,7 +99,7 @@ int main()
 	{
 		if (colors[i] == 0)
 		{
-			int err = process(i);
+			int err = process(i,count_ver,count_rebro,array,stack,&kol,colors);
 			if (err == 1)
 			{
 				printf("impossible to sort");
