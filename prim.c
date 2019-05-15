@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdlib.h> 
 #include <stdio.h> 
 
@@ -6,22 +7,14 @@ typedef struct rebro {
 	int end;
 	int length;
 } rebro_t;
-
-int count_ver;
-int count_rebro;
-rebro_t * all_rebro;
-
-int * visited_vertices; // 0 - пока не в ответе, 1 - в ответе
-rebro_t *rebro_answer;
-int count_rebro_already_added = 0;
-
-int cmp(rebro_t *a, rebro_t *b)
+int cmp(const void *a, const void *b)
 {
-	return a->length - b->length;
+	return ((rebro_t*)a)->length - ((rebro_t*)b)->length;
 }
 
-int process()
+int process(int count_rebro, int count_ver, rebro_t * all_rebro, int * visited_vertices, rebro_t *rebro_answer)
 {
+	int count_rebro_already_added = 0;
 	while (count_rebro_already_added != count_ver - 1)
 	{
 		int min_rebro = -1;
@@ -48,6 +41,12 @@ int process()
 
 int main()
 {
+
+	int count_ver;
+	int * visited_vertices;
+	int count_rebro;
+	rebro_t * all_rebro;
+	rebro_t *rebro_answer;
 	scanf("%d\n", &count_ver);
 	if (count_ver < 0 || count_ver>5000)
 	{
@@ -112,11 +111,11 @@ int main()
 		}
 	}
 
-	qsort(all_rebro, count_rebro, sizeof(rebro_t), cmp);
+	qsort(all_rebro, count_rebro, sizeof(rebro_t), &cmp);
 
 	visited_vertices[1] = 1;
 
-	if (process() == 1)
+	if (process(count_rebro, count_ver, all_rebro, visited_vertices, rebro_answer) == 1)
 	{
 		printf("no spanning tree");
 	}
@@ -126,7 +125,7 @@ int main()
 
 	free(all_rebro);
 	free(visited_vertices);
-	free(rebro_answer);	
+	free(rebro_answer);
 
 	return 0;
 }
