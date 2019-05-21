@@ -7,21 +7,26 @@ typedef struct rebro {
 	int end;
 } rebro_t;
 
-int process(int vert_num, int count_ver,int count_rebro,rebro_t * array,int *stack,int *kol,int *colors)
+enum color {
+	COLOR_WHITE = 0,
+	COLOR_GRAY = 1,
+	COLOR_BLACK = 2
+};
+
+int process(int vert_num, int count_ver, int count_rebro, rebro_t * array, int *stack, int *kol, enum color *colors)
 {
-	// красим в серый 
-	if (colors[vert_num] == 1)
+	// красим в серый
+	if (colors[vert_num] == COLOR_GRAY)
 	{
 		return 1;
 	}
-	colors[vert_num] = 1;
+	colors[vert_num] = COLOR_GRAY;
 
-	// ид1м по всем детям и вызываем рекурсивно 
+	// ид1м по всем детям и вызываем рекурсивно
 	for (int i = 0; i < count_rebro; i++)
 	{
-		if (array[i].begin == vert_num && colors[array[i].end] != 2)
+		if (array[i].begin == vert_num && colors[array[i].end] != COLOR_BLACK)
 		{
-
 			int err = process(array[i].end, count_ver, count_rebro, array, stack, kol, colors);
 			if (err == 1) {
 				return 1;
@@ -30,7 +35,7 @@ int process(int vert_num, int count_ver,int count_rebro,rebro_t * array,int *sta
 	}
 
 	// красим в чёрный и кладём в стек 
-	colors[vert_num] = 2;
+	colors[vert_num] = COLOR_BLACK;
 	stack[*kol] = vert_num;
 	(*kol)++;
 
@@ -44,7 +49,7 @@ int main()
 	rebro_t * array;
 	int *stack;
 	int kol;
-	int * colors;
+	enum color * colors;
 	scanf("%d\n", &count_ver);
 	if (count_ver < 0 || count_ver>1000)
 	{
@@ -97,9 +102,9 @@ int main()
 
 	for (int i = 1; i <= count_ver; ++i)
 	{
-		if (colors[i] == 0)
+		if (colors[i] == COLOR_WHITE)
 		{
-			int err = process(i,count_ver,count_rebro,array,stack,&kol,colors);
+			int err = process(i, count_ver, count_rebro, array, stack, &kol, colors);
 			if (err == 1)
 			{
 				printf("impossible to sort");
@@ -122,4 +127,3 @@ int main()
 
 	return 0;
 }
-
