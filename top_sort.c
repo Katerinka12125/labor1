@@ -13,7 +13,7 @@ enum color {
 	COLOR_BLACK = 2
 };
 
-int process(int vert_num, int count_ver, int count_rebro, rebro_t * array, int *stack, int *kol, enum color *colors)
+int process(int vert_num, int count_ver, int count_rebro, const rebro_t * array, int *stack, int *kol, enum color *colors)
 {
 	// красим в серый
 	if (colors[vert_num] == COLOR_GRAY)
