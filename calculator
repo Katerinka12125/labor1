@@ -125,7 +125,8 @@ token_t *convertToRPN(token_t *expression, int expressionLength, int *resultLeng
 				result[(*resultLength)++] = stack[stackEnd--];
 			}
 			if (stackEnd == -1)
-				return NULL;// Invalid brackets
+			       {free(stack);
+				return NULL;}// Invalid brackets
 			stackEnd--; // Remove '('
 		}
 		else
@@ -179,6 +180,7 @@ int calculator_count (token_t *rpn, int count, double *result)
 
 			char operator = current_token.symbol;
 			if ((operator=='/')&&(right==0))
+			free(stack);
 				return -2;
 
 			double calculate = calculateOperator( operator, left, right);
@@ -187,8 +189,10 @@ int calculator_count (token_t *rpn, int count, double *result)
 			length_stack++;
 		}
 	}
-
-	if(length_stack!=1) return -1;
+         
+	if(length_stack!=1) 
+	{free(stack);
+	return -1;}
 
     *result=stack[length_stack-1];
     free(stack);
