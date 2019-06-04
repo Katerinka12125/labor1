@@ -73,7 +73,8 @@ token_t *parse (char * string, int * tokenCount)
 		else
 		{
 			if (getOperatorPriority(string[i]) == -1)
-				return NULL;
+			{ free(result);
+				return NULL;}
 
 			if(is_number)
 			{
@@ -126,6 +127,7 @@ token_t *convertToRPN(token_t *expression, int expressionLength, int *resultLeng
 			}
 			if (stackEnd == -1)
 			       {free(stack);
+			       free(result);
 				return NULL;}// Invalid brackets
 			stackEnd--; // Remove '('
 		}
@@ -144,7 +146,8 @@ token_t *convertToRPN(token_t *expression, int expressionLength, int *resultLeng
 	while (stackEnd >= 0)
 	{
 		if (stack[stackEnd].tokenType == 1 && stack[stackEnd].symbol == '(')
-			return NULL; // Invalid brackets
+		{ free(stack);
+			return NULL;} // Invalid brackets
 		result[(*resultLength)++] = stack[stackEnd--];
 	}
 
