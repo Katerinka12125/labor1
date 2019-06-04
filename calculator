@@ -212,6 +212,7 @@ int main()
 	if ( tokens==NULL)
 	{
 		printf("syntax error");
+		free(tokens);
 	  exit (0);
 	}
 
@@ -220,6 +221,7 @@ int main()
 	if (rpn==NULL)
 	{
 		printf("syntax error");
+		free(tokens);
 	  exit (0);
 	}
 
@@ -228,11 +230,13 @@ int main()
 	if (err==-2)
 	{
 		printf("division by zero");
+		free(tokens);
 	  exit (0);
 	}
 	if (err==-1)
 	{
 		printf("syntax error");
+		free(tokens);
 	  exit (0);
 	}
 	printf("%lf\n", result);
