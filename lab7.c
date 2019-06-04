@@ -125,7 +125,8 @@ token_t *convertToRPN(token_t *expression, int expressionLength, int *resultLeng
 				result[(*resultLength)++] = stack[stackEnd--];
 			}
 			if (stackEnd == -1)
-				return NULL; // Invalid brackets
+				return NULL;// Invalid brackets
+			free(stack);
 			stackEnd--; // Remove '('
 		}
 		else
@@ -228,5 +229,6 @@ int main()
 	  exit (0);
 	}
 	printf("%lf\n", result);
+	free(rpn);
 	return 0;
 }
